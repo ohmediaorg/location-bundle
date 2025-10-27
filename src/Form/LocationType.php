@@ -163,23 +163,6 @@ class LocationType extends AbstractType
             'allow_delete' => true,
             'by_reference' => false,
         ]);
-
-        $builder->add('contact', ChoiceType::class, [
-            'label' => 'Include in contact form?',
-            'choices' => [
-                'Yes' => true,
-                'No' => false,
-            ],
-            'expanded' => true,
-            'row_attr' => [
-                'class' => 'fieldset-nostyle mb-3',
-            ],
-            'help' => 'Email must also be populated.',
-        ]);
-
-        $builder->add('subject', TextType::class, [
-            'label' => 'Contact Form Subject',
-        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

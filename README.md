@@ -79,9 +79,3 @@ website header, that would look something like this:
   <p><b>Today's hours:</b> {{ hours_formatted[today] }}</p>
 {% endif %}
 ```
-
-# Contact Form
-
-The contact form can be output using `{{ contact_form() }}`. It will include a
-recipient selection based on the backend settings as well as each Location that
-has an email populated.

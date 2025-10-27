@@ -39,7 +39,6 @@
             <th>Name</th>
             <th>Address</th>
             <th>Contact Info</th>
-            <th>Contact Form</th>
             <th>Last Updated</th>
             <th></th>
           </tr>
@@ -76,12 +75,6 @@
               {% endif %}
               {% if location.fax %}
               <small class="d-block"><b>f:</b> {{ location.fax }}</small>
-              {% endif %}
-            </td>
-            <td>
-              {{ location.contact ? 'Yes' : 'No' }}
-              {% if location.contact %}
-              <small class="d-block"><b>Subject:</b> {{ location.subject }}</small>
               {% endif %}
             </td>
             <td>{{ location.updatedAt|datetime }}</td>

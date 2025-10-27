@@ -65,10 +65,6 @@
             <div class="col-6">{{ form_row(form.fax) }}</div>
           </div>
 
-          {{ form_row(form.contact) }}
-
-          {{ form_row(form.subject) }}
-
           {{ form_row(form.primary) }}
 
           {% do form.hours.setRendered %}
@@ -214,19 +210,6 @@ document.addEventListener('DOMContentLoaded', function() {
   country.addEventListener('change', toggleAddressFields);
 
   toggleAddressFields();
-
-  const contactNodeList = form.elements['{{ form.contact.vars.full_name }}'];
-  const subject = document.getElementById('{{ form.subject.vars.id }}');
-
-  function toggleSubject() {
-    toggleInput(subject, '1' === contactNodeList.value);
-  }
-
-  contactNodeList.forEach((radio) => {
-    radio.addEventListener('change', toggleSubject);
-  });
-
-  toggleSubject();
 
   const hoursPrototype = document.getElementById('hours_prototype');
   const hoursPrototypeName = {{ form.hours.vars.prototype.vars.name|js }};
