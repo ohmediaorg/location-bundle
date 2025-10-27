@@ -1,13 +1,13 @@
 <?php
 
-namespace OHMedia\ContactBundle\Controller;
+namespace OHMedia\LocationBundle\Controller;
 
 use Doctrine\DBAL\Connection;
 use OHMedia\BackendBundle\Routing\Attribute\Admin;
-use OHMedia\ContactBundle\Entity\Location;
-use OHMedia\ContactBundle\Form\LocationType;
-use OHMedia\ContactBundle\Repository\LocationRepository;
-use OHMedia\ContactBundle\Security\Voter\LocationVoter;
+use OHMedia\LocationBundle\Entity\Location;
+use OHMedia\LocationBundle\Form\LocationType;
+use OHMedia\LocationBundle\Repository\LocationRepository;
+use OHMedia\LocationBundle\Security\Voter\LocationVoter;
 use OHMedia\UtilityBundle\Form\DeleteType;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,7 +39,7 @@ class LocationController extends AbstractController
 
         $locations = $this->locationRepository->findAllOrdered();
 
-        return $this->render('@OHMediaContact/location/location_index.html.twig', [
+        return $this->render('@OHMediaLocation/location/location_index.html.twig', [
             'locations' => $locations,
             'new_location' => $newLocation,
             'attributes' => $this->getAttributes(),
@@ -118,7 +118,7 @@ class LocationController extends AbstractController
             $this->addFlash('error', 'There are some errors in the form below.');
         }
 
-        return $this->render('@OHMediaContact/location/location_create.html.twig', [
+        return $this->render('@OHMediaLocation/location/location_create.html.twig', [
             'form' => $form->createView(),
             'location' => $location,
         ]);
@@ -153,7 +153,7 @@ class LocationController extends AbstractController
             $this->addFlash('error', 'There are some errors in the form below.');
         }
 
-        return $this->render('@OHMediaContact/location/location_edit.html.twig', [
+        return $this->render('@OHMediaLocation/location/location_edit.html.twig', [
             'form' => $form->createView(),
             'location' => $location,
         ]);
@@ -203,7 +203,7 @@ class LocationController extends AbstractController
             $this->addFlash('error', 'There are some errors in the form below.');
         }
 
-        return $this->render('@OHMediaContact/location/location_delete.html.twig', [
+        return $this->render('@OHMediaLocation/location/location_delete.html.twig', [
             'form' => $form->createView(),
             'location' => $location,
         ]);

@@ -1,12 +1,12 @@
 <?php
 
-namespace OHMedia\ContactBundle\Entity;
+namespace OHMedia\LocationBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use OHMedia\ContactBundle\Repository\LocationRepository;
+use OHMedia\LocationBundle\Repository\LocationRepository;
 use OHMedia\UtilityBundle\Entity\BlameableEntityTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -64,13 +64,6 @@ class Location
 
     #[ORM\Column(nullable: true, name: 'main')]
     private ?bool $primary = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?bool $contact = null;
-
-    #[ORM\Column(length: 50, nullable: true)]
-    #[Assert\Length(max: 50)]
-    private ?string $subject = null;
 
     /**
      * @var Collection<int, LocationHours>
@@ -216,35 +209,6 @@ class Location
         $this->primary = $primary;
 
         return $this;
-    }
-
-    public function isContact(): ?bool
-    {
-        return $this->contact;
-    }
-
-    public function setContact(?bool $contact): static
-    {
-        $this->contact = $contact;
-
-        return $this;
-    }
-
-    public function getSubject(): ?string
-    {
-        return $this->subject;
-    }
-
-    public function setSubject(?string $subject): static
-    {
-        $this->subject = $subject;
-
-        return $this;
-    }
-
-    public function isContactEligible(): bool
-    {
-        return $this->email && $this->contact && $this->subject;
     }
 
     /**

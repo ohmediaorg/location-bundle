@@ -1,8 +1,8 @@
 {
-    "name": "ohmediaorg/contact-bundle",
+    "name": "ohmediaorg/location-bundle",
     "type": "symfony-bundle",
-    "description": "Symfony ContactBundle",
-    "keywords": ["Contact"],
+    "description": "Symfony LocationBundle",
+    "keywords": ["Location"],
     "license": "proprietary",
     "authors": [
         {
@@ -16,12 +16,12 @@
     },
     "autoload": {
         "psr-4": {
-            "OHMedia\\ContactBundle\\": "src/"
+            "OHMedia\\LocationBundle\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "OHMedia\\ContactBundle\\Tests\\": "tests/"
+            "OHMedia\\LocationBundle\\Tests\\": "tests/"
         }
     }
 }

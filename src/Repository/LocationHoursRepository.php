@@ -1,10 +1,10 @@
 <?php
 
-namespace OHMedia\ContactBundle\Repository;
+namespace OHMedia\LocationBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use OHMedia\ContactBundle\Entity\LocationHours;
+use OHMedia\LocationBundle\Entity\LocationHours;
 
 /**
  * @extends ServiceEntityRepository<LocationHours>

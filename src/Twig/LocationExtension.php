@@ -1,9 +1,9 @@
 <?php
 
-namespace OHMedia\ContactBundle\Twig;
+namespace OHMedia\LocationBundle\Twig;
 
-use OHMedia\ContactBundle\Entity\Location;
-use OHMedia\ContactBundle\Repository\LocationRepository;
+use OHMedia\LocationBundle\Entity\Location;
+use OHMedia\LocationBundle\Repository\LocationRepository;
 use OHMedia\SettingsBundle\Service\Settings;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;

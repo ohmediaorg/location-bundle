@@ -1,8 +1,8 @@
 <?php
 
-namespace OHMedia\ContactBundle\Security\Voter;
+namespace OHMedia\LocationBundle\Security\Voter;
 
-use OHMedia\ContactBundle\Entity\Location;
+use OHMedia\LocationBundle\Entity\Location;
 use OHMedia\SecurityBundle\Entity\User;
 use OHMedia\SecurityBundle\Security\Voter\AbstractEntityVoter;
 

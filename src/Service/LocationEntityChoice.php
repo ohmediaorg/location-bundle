@@ -1,8 +1,8 @@
 <?php
 
-namespace OHMedia\ContactBundle\Service;
+namespace OHMedia\LocationBundle\Service;
 
-use OHMedia\ContactBundle\Entity\Location;
+use OHMedia\LocationBundle\Entity\Location;
 use OHMedia\SecurityBundle\Service\EntityChoiceInterface;
 
 class LocationEntityChoice implements EntityChoiceInterface

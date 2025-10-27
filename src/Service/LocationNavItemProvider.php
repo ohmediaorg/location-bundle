@@ -1,12 +1,12 @@
 <?php
 
-namespace OHMedia\ContactBundle\Service;
+namespace OHMedia\LocationBundle\Service;
 
 use OHMedia\BackendBundle\Service\AbstractNavItemProvider;
 use OHMedia\BootstrapBundle\Component\Nav\NavItemInterface;
 use OHMedia\BootstrapBundle\Component\Nav\NavLink;
-use OHMedia\ContactBundle\Entity\Location;
-use OHMedia\ContactBundle\Security\Voter\LocationVoter;
+use OHMedia\LocationBundle\Entity\Location;
+use OHMedia\LocationBundle\Security\Voter\LocationVoter;
 
 class LocationNavItemProvider extends AbstractNavItemProvider
 {

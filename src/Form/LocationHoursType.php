@@ -1,8 +1,8 @@
 <?php
 
-namespace OHMedia\ContactBundle\Form;
+namespace OHMedia\LocationBundle\Form;
 
-use OHMedia\ContactBundle\Entity\LocationHours;
+use OHMedia\LocationBundle\Entity\LocationHours;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

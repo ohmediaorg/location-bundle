@@ -1,10 +1,10 @@
 <?php
 
-namespace OHMedia\ContactBundle\Repository;
+namespace OHMedia\LocationBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use OHMedia\ContactBundle\Entity\Location;
+use OHMedia\LocationBundle\Entity\Location;
 
 /**
  * @method Location|null find($id, $lockMode = null, $lockVersion = null)

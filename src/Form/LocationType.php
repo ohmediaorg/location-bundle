@@ -1,8 +1,8 @@
 <?php
 
-namespace OHMedia\ContactBundle\Form;
+namespace OHMedia\LocationBundle\Form;
 
-use OHMedia\ContactBundle\Entity\Location;
+use OHMedia\LocationBundle\Entity\Location;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
