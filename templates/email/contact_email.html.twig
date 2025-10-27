@@ -1,0 +1,13 @@
+{% extends '@OHMediaEmail/base.html.twig' %}
+
+{% block content %}
+<p>Hello,</p>
+
+<p>Someone submitted the contact form with the following information:</p>
+
+<p><b>Name:</b> {{ data.name }}</p>
+<p><b>Email:</b> {{ data.email }}</p>
+<p><b>Phone:</b> {{ data.phone }}</p>
+<p><b>Message:</b></p>
+<p>{{ data.message|nl2br }}</p>
+{% endblock %}

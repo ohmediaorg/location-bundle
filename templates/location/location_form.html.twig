@@ -1,0 +1,290 @@
+{% extends '@OHMediaBackend/base.html.twig' %}
+
+{% block meta_title %}{{ form_title }}{% endblock %}
+
+{% macro form_row_hours(form) %}
+<tr id="{{ form.vars.id }}">
+  <td>
+    {{ form_widget(form.day, {
+      attr: {
+        class: 'form-select-sm',
+      },
+    }) }}
+    {{ form_widget(form.closed) }}
+  </td>
+  <td>
+    {{ form_widget(form.open, {
+      attr: {
+        class: 'form-control-sm',
+      },
+    }) }}
+  </td>
+  <td>
+    {{ form_widget(form.close, {
+      attr: {
+        class: 'form-control-sm',
+      },
+    }) }}
+    {{ form_widget(form.next_day_close) }}
+  </td>
+  <td>
+    <a class="btn btn-danger btn-sm float-end" title="Delete" href="#" id="{{ form.vars.id }}_delete">
+      {{ bootstrap_icon('trash-fill') }}
+      <span class="visually-hidden">Delete</span>
+    </a>
+  </td>
+</tr>
+{% endmacro %}
+
+{% block main %}
+<div class="row">
+  <div class="col-xl-8">
+    <div class="card">
+      <div class="card-body">
+        <h1 class="card-title">{{ form_title }}</h1>
+
+        {{ form_start(form) }}
+          {{ form_row(form.name) }}
+
+          {{ form_row(form.address) }}
+
+          <div class="row">
+            <div class="col-6">{{ form_row(form.city) }}</div>
+            <div class="col-6">
+              {{ form_row(form.province) }}
+              {{ form_row(form.provinces) }}
+              {{ form_row(form.states) }}
+            </div>
+            <div class="col-6">{{ form_row(form.country) }}</div>
+            <div class="col-6">
+              {{ form_row(form.postal_code) }}
+              {{ form_row(form.zip) }}
+            </div>
+            <div class="col-6">{{ form_row(form.email) }}</div>
+            <div class="col-6">{{ form_row(form.phone) }}</div>
+            <div class="col-6">{{ form_row(form.fax) }}</div>
+          </div>
+
+          {{ form_row(form.contact) }}
+
+          {{ form_row(form.subject) }}
+
+          {{ form_row(form.primary) }}
+
+          {% do form.hours.setRendered %}
+
+          <fieldset class="mb-3">
+            {{ form_label(form.hours) }}
+
+            <div id="{{ form.hours.vars.id }}">
+              <small class="d-block">
+                Entering hours:
+
+                <ul>
+                  <li>if you omit a day, it will be considered closed</li>
+                  <li>if the location is closed for a period during the day (eg. lunch hour), create two entries for that day (eg. Monday 9am-12pm, Monday 1pm-5pm)</li>
+                  <li>if you are open past midnight for a day, use the "Next Day Close" checkbox - do not create an entry for the next day at 12am</li>
+                </ul>
+              </small>
+
+              <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th>Day</th>
+                    <th>Open</th>
+                    <th>Close</th>
+                    <th>&nbsp;</th>
+                  </tr>
+                </thead>
+                <tbody id="hours_container">
+                {% for child in form.hours.children %}
+                {{ _self.form_row_hours(child) }}
+                {% endfor %}
+                </tbody>
+              </table>
+              <a class="btn btn-primary btn-sm" id="add_hours" href="#">
+                {{ bootstrap_icon('plus') }}
+                Add Hours
+              </a>
+            </div>
+          </fieldset>
+        {{ form_end(form) }}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<template id="hours_prototype">{{ _self.form_row_hours(form.hours.vars.prototype) }}</template>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.querySelector('form[name={{ form.vars.name }}]');
+
+  const province = document.getElementById('{{ form.province.vars.id }}');
+  const provinces = document.getElementById('{{ form.provinces.vars.id }}');
+  const states = document.getElementById('{{ form.states.vars.id }}');
+
+  provinces.addEventListener('change', () => {
+    province.value = provinces.value;
+  });
+
+  states.addEventListener('change', () => {
+    province.value = states.value;
+  });
+
+  const country = document.getElementById('{{ form.country.vars.id }}');
+
+  const postalCode = document.getElementById('{{ form.postal_code.vars.id }}');
+  const zip = document.getElementById('{{ form.zip.vars.id }}');
+
+  zip.addEventListener('input', () => {
+    postalCode.value = zip.value;
+  });
+
+  zip.addEventListener('change', () => {
+    postalCode.value = zip.value;
+  });
+
+  function toggleRequired(input, show) {
+    if (show && input.hasAttribute('data-toggle-required')) {
+      // restore
+      input.required = input.dataset.toggleRequired;
+      delete input.dataset.toggleRequired;
+    } else if (!show && input.required) {
+      // preserve
+      input.dataset.toggleRequired = input.required;
+      input.required = false;
+    }
+  }
+
+  function toggleValue(input, show) {
+    if (show && input.hasAttribute('data-toggle-value')) {
+      // restore
+      input.value = input.dataset.toggleValue;
+      input.removeAttribute('data-toggle-value');
+    } else if (!show) {
+      // preserve
+      input.dataset.toggleValue = input.value;
+      input.value = null;
+    }
+  }
+
+  function toggleInput(input, show) {
+    input.parentNode.style.display = show ? '' : 'none';
+
+    toggleRequired(input, show);
+
+    // if hiding, we only care to toggle the value
+    // to avoid unfocusable errors due to validation
+    if (show || (!show && !input.checkValidity())) {
+      toggleValue(input, show);
+    }
+  }
+
+  function toggleAddressFields() {
+    if ('CAN' === country.value) {
+      const provincesValue = provinces.value;
+      toggleInput(provinces, true);
+      toggleInput(postalCode, true);
+      toggleInput(province, false);
+      toggleInput(states, false);
+      toggleInput(zip, false);
+      province.value = provincesValue;
+    } else if ('USA' === country.value) {
+      const statesValue = states.value;
+      const zipValue = zip.value;
+      toggleInput(states, true);
+      toggleInput(zip, true);
+      toggleInput(province, false);
+      toggleInput(provinces, false);
+      toggleInput(postalCode, false);
+      province.value = statesValue;
+      postalCode.value = zipValue;
+    } else {
+      toggleInput(province, true);
+      toggleInput(postalCode, true);
+      toggleInput(provinces, false);
+      toggleInput(states, false);
+      toggleInput(zip, false);
+    }
+  }
+
+  country.addEventListener('change', toggleAddressFields);
+
+  toggleAddressFields();
+
+  const contactNodeList = form.elements['{{ form.contact.vars.full_name }}'];
+  const subject = document.getElementById('{{ form.subject.vars.id }}');
+
+  function toggleSubject() {
+    toggleInput(subject, '1' === contactNodeList.value);
+  }
+
+  contactNodeList.forEach((radio) => {
+    radio.addEventListener('change', toggleSubject);
+  });
+
+  toggleSubject();
+
+  const hoursPrototype = document.getElementById('hours_prototype');
+  const hoursPrototypeName = {{ form.hours.vars.prototype.vars.name|js }};
+
+  const addHoursButton = document.getElementById('add_hours');
+  const hoursContainer = document.getElementById('hours_container');
+
+  let hoursIndex = {{ form.hours.children|length - 1 }};
+
+  async function initRow(row) {
+    const closed = document.getElementById(row.id + '_closed');
+
+    const open = document.getElementById(row.id + '_open');
+    const close = document.getElementById(row.id + '_close');
+    const nextDayClose = document.getElementById(row.id + '_next_day_close');
+
+    function onClosedChange() {
+      open.style.visibility = closed.checked ? 'hidden' : '';
+      open.required = !closed.checked;
+      close.style.visibility = closed.checked ? 'hidden' : '';
+      close.required = !closed.checked;
+      nextDayClose.parentNode.style.visibility = closed.checked ? 'hidden' : '';
+    }
+
+    closed.addEventListener('change', onClosedChange);
+
+    onClosedChange();
+
+    const deleteButton = document.getElementById(row.id + '_delete');
+
+    deleteButton.addEventListener('click', async function(e) {
+      e.preventDefault();
+
+      const confirmed = await customConfirm('Are you sure you want to delete this entry?');
+
+      if (confirmed) {
+        row.remove();
+      }
+    });
+  }
+
+  addHoursButton.addEventListener('click', async function(e) {
+    e.preventDefault();
+
+    hoursIndex++;
+
+    const row = hoursPrototype.content.firstElementChild.cloneNode(true);
+
+    row.innerHTML = row.innerHTML.replaceAll(hoursPrototypeName, hoursIndex);
+
+    row.id = row.id.replace(hoursPrototypeName, hoursIndex);
+
+    hoursContainer.append(row);
+
+    initRow(row);
+  });
+
+  hoursContainer.querySelectorAll('tr').forEach(initRow);
+});
+</script>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends '@OHMediaBackend/form.html.twig' %}
+
+{% set form_title = 'Contact Form' %}
+
+{% block breadcrumbs %}
+{{ bootstrap_breadcrumbs(
+  bootstrap_breadcrumb(bootstrap_icon('gear-fill') ~ ' Settings'),
+  bootstrap_breadcrumb('Contact Form'),
+) }}
+{% endblock %}
