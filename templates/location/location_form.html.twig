@@ -28,10 +28,12 @@
       {{ form_widget(form.next_day_close) }}
     </td>
     <td>
-      <a class="btn btn-danger btn-sm float-end" title="Delete" href="#" id="{{ form.vars.id }}_delete">
-        {{ bootstrap_icon('trash') }}
-        <span class="visually-hidden">Delete</span>
-      </a>
+      <div class="row-actions">
+        <a class="btn btn-danger" title="Delete Hours" href="#" id="{{ form.vars.id }}_delete">
+          {{ bootstrap_icon('trash') }}
+          <span class="visually-hidden">Delete Hours</span>
+        </a>
+      </div>
     </td>
   </tr>
 {% endmacro %}
