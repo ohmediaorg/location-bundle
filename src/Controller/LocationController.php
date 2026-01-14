@@ -3,6 +3,7 @@
 namespace OHMedia\LocationBundle\Controller;
 
 use Doctrine\DBAL\Connection;
+use OHMedia\BackendBundle\Form\MultiSaveType;
 use OHMedia\BackendBundle\Routing\Attribute\Admin;
 use OHMedia\LocationBundle\Entity\Location;
 use OHMedia\LocationBundle\Form\LocationType;
@@ -12,6 +13,7 @@ use OHMedia\UtilityBundle\Form\DeleteType;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -102,7 +104,7 @@ class LocationController extends AbstractController
 
         $form = $this->createForm(LocationType::class, $location);
 
-        $form->add('save', SubmitType::class);
+        $form->add('save', MultiSaveType::class);
 
         $form->handleRequest($request);
 
@@ -112,7 +114,7 @@ class LocationController extends AbstractController
 
                 $this->addFlash('notice', 'The location was created successfully.');
 
-                return $this->redirectToRoute('location_index');
+                return $this->redirectForm($location, $form);
             }
 
             $this->addFlash('error', 'There are some errors in the form below.');
@@ -137,7 +139,7 @@ class LocationController extends AbstractController
 
         $form = $this->createForm(LocationType::class, $location);
 
-        $form->add('save', SubmitType::class);
+        $form->add('save', MultiSaveType::class);
 
         $form->handleRequest($request);
 
@@ -147,7 +149,7 @@ class LocationController extends AbstractController
 
                 $this->addFlash('notice', 'The location was updated successfully.');
 
-                return $this->redirectToRoute('location_index');
+                return $this->redirectForm($location, $form);
             }
 
             $this->addFlash('error', 'There are some errors in the form below.');
@@ -172,6 +174,21 @@ class LocationController extends AbstractController
         }
 
         $this->locationRepository->save($location, true);
+    }
+
+    private function redirectForm(Location $location, FormInterface $form): Response
+    {
+        $clickedButtonName = $form->getClickedButton()->getName() ?? null;
+
+        if ('keep_editing' === $clickedButtonName) {
+            return $this->redirectToRoute('location_edit', [
+                'id' => $location->getId(),
+            ]);
+        } elseif ('add_another' === $clickedButtonName) {
+            return $this->redirectToRoute('location_create');
+        } else {
+            return $this->redirectToRoute('location_index');
+        }
     }
 
     #[Route('/location/{id}/delete', name: 'location_delete', methods: ['GET', 'POST'])]

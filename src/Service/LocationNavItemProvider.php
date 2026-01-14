@@ -14,7 +14,7 @@ class LocationNavItemProvider extends AbstractNavItemProvider
     {
         if ($this->isGranted(LocationVoter::INDEX, new Location())) {
             return (new NavLink('Locations', 'location_index'))
-                ->setIcon('buildings-fill');
+                ->setIcon('geo-alt');
         }
 
         return null;
