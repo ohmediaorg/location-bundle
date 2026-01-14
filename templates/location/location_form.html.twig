@@ -29,9 +29,8 @@
     </td>
     <td>
       <div class="row-actions">
-        <a class="btn btn-danger" title="Delete Hours" href="#" id="{{ form.vars.id }}_delete">
+        <a class="btn btn-danger" title="Delete Hours" href="#" id="{{ form.vars.id }}_delete" aria-label="Delete Hours">
           {{ bootstrap_icon('trash') }}
-          <span class="visually-hidden">Delete Hours</span>
         </a>
       </div>
     </td>
@@ -91,7 +90,7 @@
                       <th>Day</th>
                       <th>Open</th>
                       <th>Close</th>
-                      <th>&nbsp;</th>
+                      <th aria-label="Row Actions"></th>
                     </tr>
                   </thead>
                   <tbody id="hours_container">
