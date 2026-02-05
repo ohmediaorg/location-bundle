@@ -33,12 +33,18 @@ class LocationType extends AbstractType
             'label' => 'Province',
             'mapped' => false,
             'data' => $location->getProvince(),
+            'attr' => [
+                'class' => 'nice-select2',
+            ],
         ]);
 
         $builder->add('states', StateType::class, [
             'label' => 'State',
             'mapped' => false,
             'data' => $location->getProvince(),
+            'attr' => [
+                'class' => 'nice-select2',
+            ],
         ]);
 
         $builder->add('country', CountryType::class, [
