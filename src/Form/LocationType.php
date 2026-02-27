@@ -88,7 +88,7 @@ class LocationType extends AbstractType
             ],
             'expanded' => true,
             'row_attr' => [
-                'class' => 'fieldset-nostyle mb-3',
+                'class' => 'fieldset-nostyle',
             ],
         ]);
 
