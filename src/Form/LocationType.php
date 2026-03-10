@@ -50,6 +50,7 @@ class LocationType extends AbstractType
         $builder->add('country', CountryType::class, [
             'alpha3' => true,
             'preferred_choices' => ['CAN', 'USA'],
+            'duplicate_preferred_choices' => false,
             'attr' => [
                 'class' => 'nice-select2',
             ],
