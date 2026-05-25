@@ -14,7 +14,7 @@ class LocationExtension extends AbstractExtension
 
     public function __construct(
         private LocationRepository $locationRepository,
-        private Settings $settings
+        private Settings $settings,
     ) {
     }
 
@@ -73,7 +73,7 @@ class LocationExtension extends AbstractExtension
             '@context' => 'https://schema.org',
             '@type' => 'LocalBusiness',
             'name' => $location->getName(),
-            'openingHours' => $location->getHoursSchema(),
+            'openingHoursSpecification' => $location->getHoursSchema(),
             'address' => [[
                 '@type' => 'PostalAddress',
                 'addressLocality' => $location->getCity(),

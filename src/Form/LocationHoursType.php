@@ -31,10 +31,6 @@ class LocationHoursType extends AbstractType
             'with_seconds' => false,
             'widget' => 'single_text',
         ]);
-
-        $builder->add('next_day_close', CheckboxType::class, [
-            'required' => false,
-        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

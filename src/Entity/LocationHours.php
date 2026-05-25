@@ -55,9 +55,6 @@ class LocationHours
     #[ORM\Column(type: Types::TIME_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $close = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?bool $next_day_close = null;
-
     #[ORM\ManyToOne(inversedBy: 'hours')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Location $location = null;
@@ -111,18 +108,6 @@ class LocationHours
     public function setClose(?\DateTimeImmutable $close): static
     {
         $this->close = $close;
-
-        return $this;
-    }
-
-    public function isNextDayClose(): ?bool
-    {
-        return $this->next_day_close;
-    }
-
-    public function setNextDayClose(?bool $next_day_close): static
-    {
-        $this->next_day_close = $next_day_close;
 
         return $this;
     }

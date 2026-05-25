@@ -300,51 +300,49 @@ class Location
 
     public function getHoursSchema()
     {
-        $nextDayMap = [
-            LocationHours::DAY_SUNDAY => LocationHours::DAY_MONDAY,
-            LocationHours::DAY_MONDAY => LocationHours::DAY_TUESDAY,
-            LocationHours::DAY_TUESDAY => LocationHours::DAY_WEDNESDAY,
-            LocationHours::DAY_WEDNESDAY => LocationHours::DAY_THURSDAY,
-            LocationHours::DAY_THURSDAY => LocationHours::DAY_FRIDAY,
-            LocationHours::DAY_FRIDAY => LocationHours::DAY_SATURDAY,
-            LocationHours::DAY_SATURDAY => LocationHours::DAY_MONDAY,
-        ];
+        $map = LocationHours::getDayMap();
+
+        $leftovers = LocationHours::getDayMap();
+
+        unset($leftovers[LocationHours::DAY_HOLIDAY]);
 
         $schema = [];
 
-        foreach ($this->hours as $locationHours) {
-            if ($locationHours->isClosed()) {
-                continue;
-            }
+        // https://schema.org/OpeningHoursSpecification states:
+        // The place is open if the `opens` property is specified,
+        // and closed otherwise.
 
+        foreach ($this->hours as $locationHours) {
             $day = $locationHours->getDay();
 
             if (LocationHours::DAY_HOLIDAY === $day) {
                 continue;
             }
 
-            if ($locationHours->isNextDayClose()) {
-                $nextDay = $nextDayMap[$day];
-
-                $schema[] = sprintf(
-                    '%s %s:00-23:59:59',
-                    $day,
-                    $locationHours->getOpen()->format('H:i'),
-                );
-
-                $schema[] = sprintf(
-                    '%s 00:00:00-%s:00',
-                    $nextDay,
-                    $locationHours->getClose()->format('H:i'),
-                );
-            } else {
-                $schema[] = sprintf(
-                    '%s %s:00-%s:00',
-                    $day,
-                    $locationHours->getOpen()->format('H:i'),
-                    $locationHours->getClose()->format('H:i'),
-                );
+            if (isset($leftovers[$day])) {
+                unset($leftovers[$day]);
             }
+
+            $dayFull = $map[$day];
+
+            $entry = [
+                '@type' => 'OpeningHoursSpecification',
+                'dayOfWeek' => 'https://schema.org/'.$dayFull,
+            ];
+
+            if (!$locationHours->isClosed()) {
+                $entry['opens'] = $locationHours->getOpen()->format('H:i:00');
+                $entry['closes'] = $locationHours->getClose()->format('H:i:00');
+            }
+
+            $schema[] = $entry;
+        }
+
+        foreach ($leftovers as $day => $dayFull) {
+            $schema[] = [
+                '@type' => 'OpeningHoursSpecification',
+                'dayOfWeek' => 'https://schema.org/'.$dayFull,
+            ];
         }
 
         return $schema;

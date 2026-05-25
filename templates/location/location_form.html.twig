@@ -25,7 +25,6 @@
           class: 'form-control-sm',
         },
       }) }}
-      {{ form_widget(form.next_day_close) }}
     </td>
     <td>
       <div class="row-actions">
@@ -79,8 +78,9 @@
 
                   <ul>
                     <li>if you omit a day, it will be considered closed</li>
-                    <li>if the location is closed for a period during the day (eg. lunch hour), create two entries for that day (eg. Monday 9am-12pm, Monday 1pm-5pm)</li>
-                    <li>if you are open past midnight for a day, use the "Next Day Close" checkbox - do not create an entry for the next day at 12am</li>
+                    <li>if the location is closed for a period during the day (eg. lunch hour), create two entries for that day (eg. Monday 09:00 AM - 12:00 PM &amp; Monday 01:00 PM - 05:00 PM)</li>
+                    <li>if you are open past midnight, select the appropriate AM close time; do not create an entry for the next day at 12:00 AM!</li>
+                    <li>if you are open 24 hours, create entries from 12:00 AM to 11:59 PM</li>
                   </ul>
                 </small>
 
@@ -225,14 +225,12 @@
 
       const open = document.getElementById(row.id + '_open');
       const close = document.getElementById(row.id + '_close');
-      const nextDayClose = document.getElementById(row.id + '_next_day_close');
 
       function onClosedChange() {
         open.style.visibility = closed.checked ? 'hidden' : '';
         open.required = !closed.checked;
         close.style.visibility = closed.checked ? 'hidden' : '';
         close.required = !closed.checked;
-        nextDayClose.parentNode.style.visibility = closed.checked ? 'hidden' : '';
       }
 
       closed.addEventListener('change', onClosedChange);
