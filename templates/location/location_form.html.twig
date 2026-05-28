@@ -15,14 +15,14 @@
     <td>
       {{ form_widget(form.open, {
         attr: {
-          class: 'form-control-sm',
+          class: 'form-control-sm location-hours-open',
         },
       }) }}
     </td>
     <td>
       {{ form_widget(form.close, {
         attr: {
-          class: 'form-control-sm',
+          class: 'form-control-sm location-hours-close',
         },
       }) }}
     </td>
@@ -262,6 +262,11 @@
       row.id = row.id.replace(hoursPrototypeName, hoursIndex);
 
       hoursContainer.append(row);
+
+      if (row.previousElementSibling) {
+        row.querySelector('.location-hours-open').value = row.previousElementSibling.querySelector('.location-hours-open').value;
+        row.querySelector('.location-hours-close').value = row.previousElementSibling.querySelector('.location-hours-close').value;
+      }
 
       initRow(row);
     });
