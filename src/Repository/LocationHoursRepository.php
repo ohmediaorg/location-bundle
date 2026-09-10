@@ -29,7 +29,7 @@ class LocationHoursRepository extends ServiceEntityRepository
     //        return $this->createQueryBuilder('l')
     //            ->andWhere('l.exampleField = :val')
     //            ->setParameter('val', $value)
-    //            ->orderBy('l.id', 'ASC')
+    //            ->orderBy('l.id', \SortDirection::Ascending)
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()

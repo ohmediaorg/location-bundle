@@ -69,7 +69,7 @@ class Location
      * @var Collection<int, LocationHours>
      */
     #[ORM\OneToMany(targetEntity: LocationHours::class, mappedBy: 'location', orphanRemoval: true, cascade: ['persist', 'remove'])]
-    #[ORM\OrderBy(['day' => 'ASC', 'open' => 'ASC'])]
+    #[ORM\OrderBy(['day' => \SortDirection::Ascending, 'open' => \SortDirection::Ascending])]
     private Collection $hours;
 
     #[ORM\Column(length: 50, nullable: true)]

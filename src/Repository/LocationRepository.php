@@ -49,7 +49,7 @@ class LocationRepository extends ServiceEntityRepository
     public function findAllOrdered(): array
     {
         return $this->findBy([], [
-            'ordinal' => 'asc',
+            'ordinal' => \SortDirection::Ascending,
         ]);
     }
 }
