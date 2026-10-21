@@ -18,6 +18,7 @@
           class: 'form-control-sm location-hours-open',
         },
       }) }}
+      {{ form_widget(form.open_24_hours) }}
     </td>
     <td>
       {{ form_widget(form.close, {
@@ -80,7 +81,6 @@
                     <li>if you omit a day, it will be considered closed</li>
                     <li>if the location is closed for a period during the day (eg. lunch hour), create two entries for that day (eg. Monday 09:00 AM - 12:00 PM &amp; Monday 01:00 PM - 05:00 PM)</li>
                     <li>if you are open past midnight, select the appropriate AM close time; do not create an entry for the next day at 12:00 AM!</li>
-                    <li>if you are open 24 hours, create entries from 12:00 AM to 11:59 PM</li>
                   </ul>
                 </small>
 
@@ -222,20 +222,39 @@
 
     async function initRow(row) {
       const closed = document.getElementById(row.id + '_closed');
+      const open24Hours = document.getElementById(row.id + '_open_24_hours');
 
       const open = document.getElementById(row.id + '_open');
       const close = document.getElementById(row.id + '_close');
 
       function onClosedChange() {
-        open.style.visibility = closed.checked ? 'hidden' : '';
-        open.required = !closed.checked;
-        close.style.visibility = closed.checked ? 'hidden' : '';
-        close.required = !closed.checked;
+        const showTimes = !closed.checked && !open24Hours.checked;
+        open.style.visibility = !showTimes ? 'hidden' : '';
+        open.required = showTimes;
+        close.style.visibility = !showTimes ? 'hidden' : '';
+        close.required = showTimes;
+        open24Hours.parentNode.style.visibility = closed.checked ? 'hidden' : '';
       }
 
       closed.addEventListener('change', onClosedChange);
 
       onClosedChange();
+
+      function onOpen24HoursChange() {
+        open.style.visibility = open24Hours.checked ? 'hidden' : '';
+        open.required = !open24Hours.checked;
+        close.style.visibility = open24Hours.checked ? 'hidden' : '';
+        close.required = !open24Hours.checked;
+
+        if (open24Hours.checked) {
+          open.value = '00:00';
+          close.value = '23:59';
+        }
+      }
+
+      open24Hours.addEventListener('change', onOpen24HoursChange);
+
+      onOpen24HoursChange();
 
       const deleteButton = document.getElementById(row.id + '_delete');
 

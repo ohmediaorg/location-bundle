@@ -18,6 +18,10 @@ class LocationHoursType extends AbstractType
             'required' => false,
         ]);
 
+        $builder->add('open_24_hours', CheckboxType::class, [
+            'required' => false,
+        ]);
+
         $builder->add('day', ChoiceType::class, [
             'choices' => LocationHours::getDayChoices(),
         ]);

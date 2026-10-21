@@ -259,6 +259,11 @@ class Location
                 continue;
             }
 
+            if ($locationHours->isOpen24Hours()) {
+                $hours[$dayFull][] = '24 hours';
+                continue;
+            }
+
             $open = $locationHours->getOpen();
             $close = $locationHours->getClose();
 

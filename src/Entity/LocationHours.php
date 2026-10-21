@@ -123,4 +123,24 @@ class LocationHours
 
         return $this;
     }
+
+    public function isOpen24Hours(): bool
+    {
+        if (!$this->open || !$this->close) {
+            return false;
+        }
+
+        return '12:00am' === $this->open->format('g:ia')
+            && '11:59pm' === $this->close->format('g:ia');
+    }
+
+    public function setOpen24Hours(?bool $open_24_hours): static
+    {
+        if ($open_24_hours) {
+            $this->open = new \DateTimeImmutable('12:00am');
+            $this->close = new \DateTimeImmutable('11:59pm');
+        }
+
+        return $this;
+    }
 }
